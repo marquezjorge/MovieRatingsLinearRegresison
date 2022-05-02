@@ -23,6 +23,15 @@ movieYears1 = soup1.find_all('td')
 movieBudgets0 = soup0.find_all('td', class_ = 'data')
 movieBudgets1 = soup0.find_all('td', class_ = 'data')
 
+
+def writeToFile(movies: list, budgets: list, years: list):
+    with open("movies.txt", "w", encoding="utf-8") as f:
+        for i in range(0, 200):
+            n = movies[i] + " " + years[i] + " " + budgets[i]
+            f.write(n)
+            f.write('\n')
+
+
 movies = []
 for i in range(1, 101):
     movies.append(str(movieTitles0[i].text))
@@ -35,16 +44,8 @@ for i in range(0, len(movieYears0)):
         years.append(str(movieYears1[i].text))
 
 budgets = []
-print(movieBudgets0)
 for i in range(0, len(movieBudgets0)):
     if i % 4 == 1:
         budgets.append(str(movieBudgets0[i].text).replace('&nbsp;', ' '))
         budgets.append(str(movieBudgets1[i].text).replace('&nbsp;', ' '))
 
-"""
-with open("movies.txt", "w", encoding="utf-8") as f:
-    for i in range(0, 200):
-        n = movies[i] + " " + years[i] + " " + budgets[i]
-        f.write(n)
-        f.write('\n')
-"""
