@@ -17,7 +17,6 @@ def getYear(s: str) -> int:
     for i in range(0, len(l)):
         if l[i] in months:
             index = i
-    # print(l)
     return int(l[index + 2])
 
 
@@ -38,10 +37,11 @@ def prepRequest(s: str) -> dict:
     return d
 
 
-def getRuntimes(movies: list):
+def getRuntimesRatings(movies: list) -> list:
     # headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0'}
     apiKey = "9d7dfd66&"
     url = "http://www.omdbapi.com/?apikey="
+    data = []
     try:
         for i in range(0, len(movies)):
             parameters = prepRequest(str(movies[i]))
@@ -49,10 +49,13 @@ def getRuntimes(movies: list):
             j = result.json()
             runtime = j['Runtime']
             rating = j["Ratings"][0]['Value']
-            print(runtime, rating, i+1)
+            temp = [runtime, rating]
+            data.append(temp)
+            #print(runtime, rating, i+1)
 
     except KeyError:
         print("error")
+    return data
 
 
 def test():
@@ -67,15 +70,32 @@ def test():
     rating = j["Ratings"][0]['Value']
 
 
-# 4. extract info
-# 5. store in file
-def main():
-    movies = getMovies()
-    getRuntimes(movies)
+def getBudgets(movies: list) -> list:
+    budgets = []
+    for i in range(0, len(movies)):
+        temp = movies[i].split()
+        budgets.append(temp.pop())
+    return budgets
 
+
+def main():
+
+    movies = getMovies()
+    runtimeAndRatings = getRuntimesRatings(movies)
+    budgets = getBudgets(movies)
+    with open("data.txt", "w", encoding="utf-8") as f:
+        for i in range(0, len(movies)):
+            runtime = runtimeAndRatings[i][0].split()[0]
+            rating = runtimeAndRatings[i][1].split("/")[0]
+            budget = budgets[i].split("$")[1].replace(",", "")
+            temp = runtime + " " + budget + " " + rating
+            f.write(temp)
+            f.write('\n')
+            print(runtime, budget, rating)
 
 
 if __name__ == '__main__':
     main()
+
 
 
