@@ -79,7 +79,6 @@ def getBudgets(movies: list) -> list:
 
 
 def main():
-
     movies = getMovies()
     runtimeAndRatings = getRuntimesRatings(movies)
     budgets = getBudgets(movies)
