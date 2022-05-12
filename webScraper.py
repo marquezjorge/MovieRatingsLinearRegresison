@@ -48,3 +48,4 @@ for i in range(0, len(movieBudgets0)):
     if i % 4 == 1:
         budgets.append(str(movieBudgets0[i].text).replace('&nbsp;', ' '))
         budgets.append(str(movieBudgets1[i].text).replace('&nbsp;', ' '))
+
